@@ -29,7 +29,7 @@ cmd({
             return reply("Failed to fetch the video. Please try again later.");
         }
         
-        let ytmsg = `╔═══〔 *𓆩ုSKOBA-MD𓆪* 〕═══❒
+        let ytmsg = `╔═══〔 *𓆩𝐄𝐒𝐊𝐎𝐁𝐀-𝐌𝐃ှ᪳𓆪* 〕═══❒
 ║╭───────────────◆  
 ║│ *❍ ᴠɪᴅᴇᴏ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ*
 ║╰───────────────◆
@@ -54,7 +54,7 @@ cmd({
             document: { url: data.result.download_url }, 
             mimetype: "video/mp4", 
             fileName: `${data.result.title}.mp4`, 
-            caption: `*${yts.title}*\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴇꜱᴋᴏʙᴀ🎐*`
+            caption: `*${yts.title}*\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴇꜱᴋᴏʙᴀ 🎐*`
         }, { quoted: mek });
 
     } catch (e) {
@@ -90,13 +90,30 @@ const yt = await ytsearch(q);
         return reply("Failed to fetch the audio. Please try again later.");
     }
     
-    let ytmsg = `*PLAYING: ${yts.title}*\n> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴇꜱᴋᴏʙᴀ-ᴍᴅ🫟*`;
+    let ytmsg = `*PLAYING: ${yts.title}*`;
 
 
 
 // Send song details
     await conn.sendMessage(from, { image: { url: data.result.image || '' }, caption: ytmsg }, { quoted: mek });
     
+    // Send audio file
+    await conn.sendMessage(from, { audio: { url: data.result.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: mek });
+    
+    // Send document file
+    //await conn.sendMessage(from, { 
+       // document: { url: data.result.downloadUrl }, 
+      ///  mimetype: "audio/mpeg", 
+      //  fileName: `${data.result.title}.mp3`, 
+      //  caption: `> *© ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʟɪ🎐*`
+  //  }, { quoted: mek });
+
+} catch (e) {
+    console.log(e);
+    reply("An error occurred. Please try again later.");
+}
+
+});    
     // Send audio file
     await conn.sendMessage(from, { audio: { url: data.result.downloadUrl }, mimetype: "audio/mpeg" }, { quoted: mek });
     
