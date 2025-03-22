@@ -53,27 +53,55 @@ async (conn, mek, m, { from, isOwner, quoted, reply }) => {
         reply(`❌ Error updating profile picture: ${error.message}`);
     }
 });
-// 4. Block User
+
+// 6. Clear All Chats
 cmd({
-    pattern: "block",
-    desc: "Block a user.",
+    pattern: "clear",
+    desc: "Clear all chats from the bot.",
     category: "owner",
-    react: "🚫",
+    react: "🧹",
     filename: __filename
 },
-async (conn, mek, m, { from, isOwner, quoted, reply }) => {
+async (conn, mek, m, { from, isOwner, reply }) => {
     if (!isOwner) return reply("❌ You are not the owner!");
-    if (!quoted) return reply("❌ Please reply to the user you want to block.");
-    const user = quoted.sender;
     try {
-        await conn.updateBlockStatus(user, 'block');
-        reply(`🚫 User ${user} blocked successfully.`);
+        const chats = conn.chats.all();
+        for (const chat of chats) {
+            await conn.modifyChat(chat.jid, 'delete');
+        }
+        reply("🧹 All chats cleared successfully!");
     } catch (error) {
-        reply(`❌ Error blocking user: ${error.message}`);
+        reply(`❌ Error clearing chats: ${error.message}`);
     }
 });
-// 5. Unblock User
+
+// delete 
+
 cmd({
+pattern: "delete",
+react: "🧹",
+alias: ["del"],
+desc: "delete message",
+category: "group",
+use: '.del',
+filename: __filename
+},
+async(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants,  isItzcp, groupAdmins, isBotAdmins, isAdmins, reply}) => {
+if (!isOwner ||  !isAdmins) return;
+try{
+if (!m.quoted) return reply(mg.notextfordel);
+const key = {
+            remoteJid: m.chat,
+            fromMe: false,
+            id: m.quoted.id,
+            participant: m.quoted.sender
+        }
+        await conn.sendMessage(m.chat, { delete: key })
+} catch(e) {
+console.log(e);
+reply('successful..👨‍💻✅')
+} 
+})cmd({
     pattern: "unblock",
     desc: "Unblock a user.",
     category: "owner",
