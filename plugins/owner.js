@@ -1,31 +1,25 @@
-
-
 const { cmd } = require('../command');
+const config = require('../config');
 
 cmd({
     pattern: "owner",
-    react: "👑", // Reaction emoji when the command is triggered
-    alias: ["king"],
+    react: "✅", 
     desc: "Get owner number",
     category: "main",
     filename: __filename
 }, 
 async (conn, mek, m, { from }) => {
     try {
-        // Owner's contact info
-        const ownerNumber = '+94774589636'; // Replace this with the actual owner number
-        const ownerName = '𓆩ုRED SAMURAY𓆪'; // Replace this with the owner's name
-        const organization = 'LIVE BOT TEAM'; // Optional: replace with the owner's organization
+        const ownerNumber = config.OWNER_NUMBER; // Fetch owner number from config
+        const ownerName = config.OWNER_NAME;     // Fetch owner name from config
 
-        // Create a vCard (contact card) for the owner
         const vcard = 'BEGIN:VCARD\n' +
                       'VERSION:3.0\n' +
-                      `FN:${ownerName}\n` +  // Full Name
-                      `ORG:${organization};\n` +  // Organization (Optional)
-                      `TEL;type=CELL;type=VOICE;waid=${ownerNumber.replace('+', '')}:${ownerNumber}\n` +  // WhatsApp ID and number
+                      `FN:${ownerName}\n` +  
+                      `TEL;type=CELL;type=VOICE;waid=${ownerNumber.replace('+', '')}:${ownerNumber}\n` + 
                       'END:VCARD';
 
-        // Send the vCard first
+        // Send the vCard
         const sentVCard = await conn.sendMessage(from, {
             contacts: {
                 displayName: ownerName,
@@ -33,17 +27,39 @@ async (conn, mek, m, { from }) => {
             }
         });
 
-        // Send a reply message that references the vCard
+        // Send the owner contact message with image and audio
         await conn.sendMessage(from, {
-            text: `This is the owner's contact: ${ownerName}`,
+            image: { url: 'https://i.ibb.co/ZJwzVrG/temp-image.jpg' }, // Image URL from your request
+            caption: `╭━━〔 *ESKOBA-MD* 〕━━┈⊷
+┃◈╭─────────────·๏
+┃◈┃• *Here is the owner details*
+┃◈┃• *Name* - ${ownerName}
+┃◈┃• *Number* ${ownerNumber}
+┃◈┃• *Version*: 3.0.0 Beta
+┃◈└───────────┈⊷
+╰──────────────┈⊷
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ Mʀ ʀᴜᴋꜱʜᴀɴ`, // Display the owner's details
             contextInfo: {
-                mentionedJid: [ownerNumber.replace('+923003588997') + '+923003588997@s.whatsapp.net'], // Mention the owner
-                quotedMessageId: sentVCard.key.id // Reference the vCard message
+                mentionedJid: [`${ownerNumber.replace('+', '')}@s.whatsapp.net`], 
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363401928208566@newsletter',
+                    newsletterName: 'Mʀ-RUKSHAN',
+                    serverMessageId: 143
+                }            
             }
+        }, { quoted: mek });
+
+        // Send audio as per your request
+        await conn.sendMessage(from, {
+            audio: { url: 'https://github.com/JawadYTX/KHAN-DATA/raw/refs/heads/main/autovoice/contact.m4a' }, // Audio URL
+            mimetype: 'audio/mp4',
+            ptt: true
         }, { quoted: mek });
 
     } catch (error) {
         console.error(error);
-        await conn.sendMessage(from, { text: 'Sorry, there was an error fetching the owner contact.' }, { quoted: mek });
-    }
+        reply(`An error occurred: ${error.message}`);
+    }
 });
