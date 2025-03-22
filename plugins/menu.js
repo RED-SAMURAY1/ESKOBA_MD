@@ -83,7 +83,7 @@ let madeMenu = `*╭━━❍〘〘 ${config.BOT_NAME} 〙〙*
 *├⬡ .ʙᴀɪsᴄᴏᴘᴇ*
 *├⬡ .ɢɪɴɪsɪsɪʟᴀ*
 *┕──────────────────❍*
-*╭──❍ 🏮 EMPIRE ESKOBA 🏮 ❍* 
+*╭──❍ 🏮 EMPIRE ALI 🏮 ❍* 
 *├⬡ .ғᴀᴍɪʟʏ*
 *├⬡ .ᴄʜᴀɴɴᴇʟ*
 *├⬡ .sᴜᴘᴘᴏʀᴛ*
@@ -261,7 +261,6 @@ let madeMenu = `*╭━━❍〘〘 ${config.BOT_NAME} 〙〙*
 *├⬡ .ss*
 *├⬡ .ʟᴏɢᴏ*
 *├⬡ .ɪᴍɢ*
-*├⬡ .ɪᴍɢurl*
 *├⬡ .ᴘʜᴏᴛᴏ*
 *├⬡ .ᴄᴏɴᴠᴇʀᴛ*
 *├⬡ .ᴛɪɴʏ*
@@ -293,8 +292,6 @@ let madeMenu = `*╭━━❍〘〘 ${config.BOT_NAME} 〙〙*
 *├⬡ .ꜱʀᴇᴘᴏ*
 *├⬡ .sʏsᴛᴇᴍ*
 *├⬡ .ʀᴀɴᴋ*
-*├⬡ .tempnumber*
-*├⬡ .News*
 *├⬡ .ᴛɪᴍᴇᴢᴏɴᴇ*
 *├⬡ .ᴅᴇꜰɪɴᴇ*
 *├⬡ .ᴅᴀɪʟʏꜰᴀᴄᴛ*
@@ -309,27 +306,16 @@ await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:madeMenu,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
       newsletterJid: '120363401928208566@newsletter',
-      newsletterName: 'ESKOBA MD IN MENU',
+      newsletterName: '𓆩ྀི͛SKOBA 𝐌Ɗ 𝚩❍𝐓 𝐌𝛆፝֟፝֟ƞ̽ʊྀི̊𓆪͛',
       serverMessageId: 999
     }
   }
 }, { quoted: mek });
-    
-            // Send the audio file with context info
+            // Send audio
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/iyn9so.mp3' },
+            audio: { url: 'https://files.catbox.moe/75p1zt.mp3' },
             mimetype: 'audio/mp4',
-            ptt: true,
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363401928208566@newsletter',
-                    newsletterName: '☇ 𝐄𝐒𝐊𝐎𝐁𝐀 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
-                    serverMessageId: 143
-                }
-            }
+            ptt: true
         }, { quoted: mek });
         
     } catch (e) {
