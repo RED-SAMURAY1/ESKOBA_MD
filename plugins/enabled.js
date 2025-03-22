@@ -1,4 +1,6 @@
 //---------------------------------------------------------------------------
+//           ALI-MD  
+//---------------------------------------------------------------------------
 //  ⚠️ DO NOT MODIFY THIS FILE ⚠️  
 //---------------------------------------------------------------------------
 const { cmd, commands } = require('../command');
@@ -331,33 +333,53 @@ async (conn, mek, m, { from, args, isOwner, reply }) => {
 //  ANTILINK1 COMMANDS
 //--------------------------------------------
 cmd({
-  pattern: "anti-link-kick",
-  alias: ["antilinkkick"],
-  desc: "Enable or disable anti-link feature in groups",
-  category: "group",
-  react: "🚫",
-  filename: __filename
-}, async (conn, mek, m, { from, l, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
-  try {
-    // Check for group, bot admin, and user admin permissions
-    if (!isGroup) return reply('This command can only be used in a group.');
-    if (!isBotAdmins) return reply('Bot must be an admin to use this command.');
-    if (!isAdmins) return reply('You must be an admin to use this command.');
-
-    // Enable or disable anti-link feature
-    if (args[0] === "on") {
-      config.ANTI_LINK_KICK = "true";
-      await reply("Anti-link feature is now enabled in this group.");
-    } else if (args[0] === "off") {
-      config.ANTI_LINK_KICK = "false";
-      await reply("Anti-link feature is now disabled in this group.");
-    } else {
-      await reply(`*Invalid input! Use either 'on' or 'off'. Example:antilinkkick on*`);
+    pattern: "antilink1",
+    desc: "Enable Antilink (warn/delete/kick) or turn off",
+    category: "group",
+    filename: __filename
+}, async (conn, mek, m, { q, reply }) => {
+    if (!q) {
+        return reply(`*Current Antilink Action:* ${antilinkAction.toUpperCase()}\n\nUse *antilink warn/delete/kick/off* to change it.`);
     }
-  } catch (error) {
-    return reply(`*An error occurred while processing your request.*\n\n_Error:_ ${error.message}`);
-  }
+
+    const action = q.toLowerCase();
+    if (["warn", "delete", "kick", "off"].includes(action)) {
+        antilinkAction = action;
+        return reply(`*Antilink action set to:* ${action.toUpperCase()}`);
+    } else {
+        return reply("❌ *Invalid option!* Use *antilink warn/delete/kick/off*.");
+    }
 });
+cmd({
+    on: "body"
+}, async (conn, mek, m, { from, body, isGroup, sender, isBotAdmins, isAdmins, reply }) => {
+    if (!isGroup || antilinkAction === "off") return;
+    
+    if (isUrl(body)) { // Using isUrl to detect links
+        if (!isBotAdmins || isAdmins) return;
+
+        return reply(`⚠️ *Warning! Links are not allowed here.*`);
+        await conn.sendMessage(from, { delete: mek.key });
+
+        switch (antilinkAction) {
+            case "warn":
+                warnCount[sender] = (warnCount[sender] || 0) + 1;
+                if (warnCount[sender] >= 3) {
+                    delete warnCount[sender];
+                    await conn.groupParticipantsUpdate(from, [sender], "remove");
+                }
+                break;
+
+            case "kick":
+                await conn.groupParticipantsUpdate(from, [sender], "remove");
+                break;
+        }
+    }
+});
+
+
+let antibotAction = "off"; // Default action is off
+let warnings = {}; // Store warning counts per user
 
 cmd({
     pattern: "anti-bot",
@@ -494,10 +516,10 @@ cmd({
 
     // Enable or disable anti-link feature
     if (args[0] === "on") {
-      config.DELETE_LINK = "true";
+      config.ANTI_LINK = "true";
       await reply("Anti-link feature is now enabled in this group.");
     } else if (args[0] === "off") {
-      config.DELETE_LINK = "false";
+      config.ANTI_LINK = "false";
       await reply("Anti-link feature is now disabled in this group.");
     } else {
       await reply(`*Invalid input! Use either 'on' or 'off'. Example:antilink on*`);
@@ -729,3 +751,4 @@ cmd({
         reply(`❌ Failed to update group profile picture: ${e.message}`);
     }
 });
+
