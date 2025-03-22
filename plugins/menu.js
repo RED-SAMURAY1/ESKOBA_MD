@@ -309,7 +309,7 @@ await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:madeMenu,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
       newsletterJid: '120363401928208566@newsletter',
-      newsletterName: '𓆩ESKOBA 𝐌Ɗ 𝚩❍𝐓 𝐌𝛆፝֟፝֟ƞ̽ʊྀི̊𓆪͛',
+      newsletterName: 'ESKOBA MD IN MENU',
       serverMessageId: 999
     }
   }
