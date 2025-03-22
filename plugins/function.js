@@ -66,7 +66,7 @@ cmd({
 
     const containsLink = linkPatterns.some(pattern => pattern.test(body));
 
-    if (containsLink && config.ANTI_LINK === 'true') {
+    if (containsLink && config.DELETE_LINK === 'true') {
       await conn.sendMessage(from, { 'delete': m.key }, { 'quoted': m });
       await conn.sendMessage(from, {
         'text': `*⚠️𝐋ιɴкѕ 𝐀ʀє 𝐍σт 𝐀ℓℓσωє∂ 𝐈ɴ 𝐓нιѕ 𝐆ʀσυρ.@${sender.split('@')[0]} 𝐏ℓєαѕє 𝐀νσι∂ 𝐒єɴ∂ιиg 𝐋ιɴкѕ.📛*`,
@@ -74,6 +74,9 @@ cmd({
       }, { 'quoted': m });
     }
   } catch (error) {
+    console.error(error);
+  }
+});  } catch (error) {
     console.error(error);
   }
 });
