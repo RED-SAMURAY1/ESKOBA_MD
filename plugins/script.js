@@ -70,7 +70,7 @@ cmd({
     filename: __filename,
 },
 async (conn, mek, m, { from, reply }) => {
-    const githubRepoURL = 'https://github.com/itx-alii-raza/ALI-MD';
+    const githubRepoURL = 'https://github.com/RED-SAMURAY1/ESKOBA_MD';
 
     try {
         // Extract username and repo name from the URL
@@ -86,21 +86,21 @@ async (conn, mek, m, { from, reply }) => {
         const repoData = await response.json();
 
         // Format the repository information
-        const formattedInfo = `*𝐇𝐄𝐋𝐋𝐎 𝐓𝐇𝐄𝐑𝐄 𝐀𝐋𝐈-𝐌𝐃 𝐖.𝐀 𝐁𝐎𝐓 𝐔𝐒𝐄𝐑!😇👑* 
+        const formattedInfo = `*𝐇𝐄𝐋𝐋𝐎 𝐓𝐇𝐄𝐑𝐄 𝐄𝐒𝐊𝐎𝐁𝐀-𝐌𝐃 𝐖.𝐀 𝐁𝐎𝐓 𝐔𝐒𝐄𝐑!⛩️* 
 
 > *sɪᴍᴘʟᴇ, ɪᴄʏ, ᴄᴏʟᴅ  & ʀɪᴄʜ ʟᴏᴀᴅᴇᴅ ʙᴏᴛ ᴡɪᴛʜ ᴀᴍᴀᴢɪɴɢ ғᴇᴀᴛᴜʀᴇs, ᴅᴏɴ'ᴛ ғᴏʀɢᴇᴛ ᴛᴏ sᴛᴀʀ & ғᴏʀᴋ ᴛʜᴇ ʀᴇᴘᴏ🌟🍴*
 
 *\`REPO LINK:\`📮*
-> https://github.com/itx-alii-raza/ALI-MD/fork
+> https://github.com/RED-SAMURAY1/ESKOBA_MD.git
 
 *\`BOT GC LINK:\`🪀*
-> https://tinyurl.com/2acmqaqz
+> https://session-site-ruka.onrender.com
 
 *\`BOT NAME:\`🤖*
 > ${repoData.name}
 
 *\`OWNER NAME:\`👨‍💻*
-> 𝐀ɭīī 𝐈ƞ̄x̷īīɖ𝛆̽
+> デドゥヌ・ルクシャン [ RUKSHAN ]
 
 *\`STARS:\`🌟*
 > ${repoData.stargazers_count}
@@ -111,19 +111,19 @@ async (conn, mek, m, { from, reply }) => {
 *\`DESCRIPTION:\`📑*
 > ${repoData.description || 'No description'}\n
 ──────────────────
-\n> *© POWERED BY ALI* 🎐`;
+\n> *© POWERED BY ESKOBA* 🎐`;
 
         // Send an image with the formatted info as a caption and context info
         await conn.sendMessage(from, {
-            image: { url: `https://files.catbox.moe/heu4tc.png` },
+            image: { url: `https://files.catbox.moe/omrtg9.jpg` },
             caption: formattedInfo,
             contextInfo: { 
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363318387454868@newsletter',
-                    newsletterName: '☇ 𝐀ɭι̇ι̇ 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
+                    newsletterJid: '120363401928208566@newsletter',
+                    newsletterName: '☇ 𝐄𝐒𝐊𝐎𝐁𝐀 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
                     serverMessageId: 143
                 }
             }
@@ -139,8 +139,8 @@ async (conn, mek, m, { from, reply }) => {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363318387454868@newsletter',
-                    newsletterName: '☇ 𝐀ɭι̇ι̇ 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
+                    newsletterJid: '120363401928208566@newsletter',
+                    newsletterName: '☇ 𝐄𝐒𝐊𝐎𝐁𝐀 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
                     serverMessageId: 143
                 }
             }
