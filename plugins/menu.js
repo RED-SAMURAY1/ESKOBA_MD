@@ -311,11 +311,22 @@ await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:madeMenu,
     }
   }
 }, { quoted: mek });
-            // Send audio
+    
+            // Send the audio file with context info
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/75p1zt.mp3' },
+            audio: { url: 'https://files.catbox.moe/iyn9so.mp3' },
             mimetype: 'audio/mp4',
-            ptt: true
+            ptt: true,
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363401928208566@newsletter',
+                    newsletterName: '☇ 𝐄𝐒𝐊𝐎𝐁𝐀 𝐌Ɗ 𝐒ʊ̊𝐏𝐏๏፝֟ɼʈ  ⃪🤖͎᪳᪳𝆺𝅥',
+                    serverMessageId: 143
+                }
+            }
         }, { quoted: mek });
         
     } catch (e) {
