@@ -7,7 +7,7 @@ const { cmd } = require("../command");
 
 cmd({
   pattern: "tourl",
-  alias: ["imgtourl", "img2url", "url"],
+  alias: ["imgtourl", "imgurl", "url"],
   react: "🖇",
   desc: "Convert an image to a URL using ImgBB.",
   category: "utility",
