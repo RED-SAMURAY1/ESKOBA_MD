@@ -2,53 +2,54 @@
 
 
 
-const { cmd, commands } = require("../command");
-const path = require("path");
+const axios = require('axios');
+const config = require('../config');
+const { cmd, commands } = require('../command');
+const { downloadMediaMessage } = require('../lib/msg2');
+const fs = require("fs");
 
 cmd({
   pattern: "save",
-  react: "📁",
-  alias: ["store"],
-  desc: "Save and send back a media file (image, video, or audio).",
-  category: "media",
-  use: ".save <caption>",
+  desc: "Save a status/photo/video and send it to your private chat (Owner only).",
+  category: "utility",
   filename: __filename,
-}, async (bot, message, chat, { quoted, q, reply }) => {
+}, async (conn, mek, m, { isOwner, reply, quoted }) => {
+  if (!isOwner) return reply("❌ You are not the owner!");
+
   try {
-    // Vérifier si un message multimédia est cité
     if (!quoted) {
-      return reply("❌ Reply to a media message (video, image, or audio) with the `.save` command.");
+      return reply("❌ Please reply to a status, photo or video message to save it.");
     }
-
-    const mimeType = quoted.mtype || quoted.mediaType; // Mieux gérer les types MIME
-    let mediaType;
-
-    // Identifier le type de fichier multimédia
-    if (mimeType.includes("video")) {
-      mediaType = "video";
-    } else if (mimeType.includes("image")) {
+    
+    let mime = (quoted.msg || quoted).mimetype || "";
+    let mediaType = "";
+    if (mime.startsWith("image")) {
       mediaType = "image";
-    } else if (mimeType.includes("audio")) {
+    } else if (mime.startsWith("video")) {
+      mediaType = "video";
+    } else if (mime.startsWith("audio")) {
       mediaType = "audio";
     } else {
-      return reply("❌ Only video, image, or audio messages are supported.");
+      return reply("❌ Unsupported media type. Please reply to a status, photo, or video message.");
     }
-
-    // Télécharger et sauvegarder le fichier multimédia
-    const savedFilePath = await bot.downloadAndSaveMediaMessage(quoted);
-    const resolvedFilePath = path.resolve(savedFilePath);
-
-    // Préparer l'objet de réponse
-    const mediaMessage = {
-      caption: q || "",
-    };
-    mediaMessage[mediaType] = { url: "file://" + resolvedFilePath };
-
-    // Envoyer le fichier au contact
-    await bot.sendMessage(chat.sender, mediaMessage, { quoted: message });
-    await reply("✅ Successfully saved and sent the media file.");
+    
+    const mediaBuffer = await quoted.download();
+    if (!mediaBuffer) return reply("❌ Failed to download the media.");
+    
+    let messageOptions = {};
+    if (mediaType === "image") {
+      messageOptions = { image: mediaBuffer };
+    } else if (mediaType === "video") {
+      messageOptions = { video: mediaBuffer, mimetype: 'video/mp4' };
+    } else if (mediaType === "audio") {
+      messageOptions = { audio: mediaBuffer, mimetype: 'audio/mpeg' };
+    }
+    
+    // Send the media directly to the owner's private chat (m.sender)
+    await conn.sendMessage(m.sender, messageOptions);
+    
   } catch (error) {
-    console.error(error);
-    reply("❌ Failed to save and send the media. Please try again.");
+    console.error("Error in save command:", error);
+    reply("❌ An error occurred while saving the media.");
   }
 });
