@@ -314,7 +314,7 @@ await conn.sendMessage(from,{image:{url: config.ALIVE_IMG},caption:madeMenu,
     
             // Send the audio file with context info
         await conn.sendMessage(from, {
-            audio: { url: 'https://cdn.ironman.my.id/i/wp4a7x.mp4' },
+            audio: { url: 'https://files.catbox.moe/iyn9so.mp3' },
             mimetype: 'audio/mp4',
             ptt: true,
             contextInfo: { 
